@@ -16,6 +16,7 @@ namespace ScheduleBoost.Data
                     "jar",
                     "baggie",
                     "trashbag",
+                    "fertilizer"
                 }
             },
             {

@@ -17,7 +17,7 @@ namespace ScheduleBoost
             if (isPatched) return;
             isPatched = true;
 
-            MelonLogger.Msg("[ConsoleUnlocker] Konsol patchad!");
+            MelonLogger.Msg("[ConsoleUnlocker] Rip Console!");
 
             var harmony = new HarmonyLib.Harmony("com.scheduleboost.consoleunlock");
 

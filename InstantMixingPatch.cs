@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.ObjectScripts;
+using ScheduleBoost.Config;
 using UnityEngine;
 
 namespace ScheduleBoost
@@ -8,8 +9,12 @@ namespace ScheduleBoost
     {
         public static List<MixingStation> mixingStations = new();
         public static List<MixingStationMk2> mixingStationsMk2 = new();
+
         public static Dictionary<MixingStation, int> lastNonZeroMS = new();
         public static Dictionary<MixingStationMk2, int> lastNonZeroMSMk2 = new();
+
+        public static Dictionary<MixingStation, float> originalMixTime = new();
+        public static Dictionary<MixingStationMk2, float> originalMixTimeMk2 = new();
 
         public static void Update()
         {
@@ -27,14 +32,18 @@ namespace ScheduleBoost
         }
     }
 
-    // Harmony patches (kan ligga i samma fil eller egen fil)
     [HarmonyPatch(typeof(MixingStation), "Awake")]
     public class MixingStationAwakePatch
     {
         static void Postfix(MixingStation __instance)
         {
-            __instance.MixTimePerItem = 1;
-            __instance.MaxMixQuantity = 250;
+            if (!InstantMixSystem.originalMixTime.ContainsKey(__instance))
+                InstantMixSystem.originalMixTime[__instance] = __instance.MixTimePerItem > 0 ? __instance.MixTimePerItem : 3f;
+
+            __instance.MixTimePerItem = Mathf.RoundToInt(
+                MixingSettings.EnableInstantMixing ? 1f : InstantMixSystem.originalMixTime[__instance]);
+
+            __instance.MaxMixQuantity = StackSettings.CustomStackLimit;
             InstantMixSystem.mixingStations.Add(__instance);
         }
     }
@@ -44,8 +53,13 @@ namespace ScheduleBoost
     {
         static void Postfix(MixingStationMk2 __instance)
         {
-            __instance.MixTimePerItem = 1;
-            __instance.MaxMixQuantity = 250;
+            if (!InstantMixSystem.originalMixTimeMk2.ContainsKey(__instance))
+                InstantMixSystem.originalMixTimeMk2[__instance] = __instance.MixTimePerItem > 0 ? __instance.MixTimePerItem : 3f;
+
+            __instance.MixTimePerItem = Mathf.RoundToInt(
+                MixingSettings.EnableInstantMixing ? 1f : InstantMixSystem.originalMixTimeMk2[__instance]);
+
+            __instance.MaxMixQuantity = StackSettings.CustomStackLimit;
             InstantMixSystem.mixingStationsMk2.Add(__instance);
         }
     }
@@ -55,10 +69,13 @@ namespace ScheduleBoost
     {
         static bool Prefix(MixingStation __instance)
         {
+            if (!MixingSettings.EnableInstantMixing) return true;
+
             if (InstantMixSystem.lastNonZeroMS.TryGetValue(__instance, out int amount))
-                __instance.CurrentMixTime = amount - 1;
+                __instance.CurrentMixTime = Mathf.Max(0, amount - 1);
             else
                 __instance.CurrentMixTime = Mathf.Max(0, __instance.GetMixQuantity() - 1);
+
             return true;
         }
     }
@@ -68,10 +85,13 @@ namespace ScheduleBoost
     {
         static bool Prefix(MixingStationMk2 __instance)
         {
+            if (!MixingSettings.EnableInstantMixing) return true;
+
             if (InstantMixSystem.lastNonZeroMSMk2.TryGetValue(__instance, out int amount))
-                __instance.CurrentMixTime = amount - 1;
+                __instance.CurrentMixTime = Mathf.Max(0, amount - 1);
             else
                 __instance.CurrentMixTime = Mathf.Max(0, __instance.GetMixQuantity() - 1);
+
             return true;
         }
     }

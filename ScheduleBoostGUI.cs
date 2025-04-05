@@ -72,7 +72,7 @@ namespace ScheduleBoost.GUI
                 sections.DrawSaveSection();
                 sections.DrawOfferToggleSection();
                 sections.DrawAddXPSection();
-                //sections.DrawAddXPSectionWithTeleport();
+                sections.DrawMixingSection();
                 sections.DrawInfoLabels();
                 GUILayout.EndVertical();
 

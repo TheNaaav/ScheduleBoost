@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.ObjectScripts;
+using ScheduleBoost.Config;
 
 namespace ScheduleBoost.Patches
 {
@@ -11,15 +12,19 @@ namespace ScheduleBoost.Patches
         [HarmonyPostfix]
         private static void StackLimitPatch(ref int __result)
         {
-            __result = 250;
+            if (StackSettings.EnableCustomStacking)
+                __result = StackSettings.CustomStackLimit;
         }
 
         [HarmonyPatch(typeof(MixingStation), "Start")]
         [HarmonyPrefix]
         private static bool MixQuantityPatch(MixingStation __instance)
         {
-            __instance.MixTimePerItem = 1;
-            __instance.MaxMixQuantity = 250;
+            if (StackSettings.EnableCustomStacking)
+            {
+                __instance.MixTimePerItem = 1;
+                __instance.MaxMixQuantity = StackSettings.CustomStackLimit;
+            }
             return true;
         }
 
@@ -27,7 +32,8 @@ namespace ScheduleBoost.Patches
         [HarmonyPrefix]
         private static bool DryingRackPatch(DryingRack __instance)
         {
-            __instance.ItemCapacity = 250;
+            if (StackSettings.EnableCustomStacking)
+                __instance.ItemCapacity = StackSettings.CustomStackLimit;
             return true;
         }
     }

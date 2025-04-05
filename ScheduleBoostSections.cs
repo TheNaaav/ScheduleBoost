@@ -2,6 +2,8 @@
 using MelonLoader;
 using static Il2CppScheduleOne.Console;
 using ScheduleBoost.Data;
+using ScheduleBoost.Config;
+using static Il2CppSystem.Guid;
 
 namespace ScheduleBoost.GUI
 {
@@ -43,9 +45,17 @@ namespace ScheduleBoost.GUI
 
         public void DrawInfoLabels()
         {
-            GUILayout.Label("Stack Limit: Always ON (250)");
-            GUILayout.Label("Instant Mixing: Always ON");
             GUILayout.Space(10);
+            GUILayout.Label("Stack Limit Settings", GUILayout.Width(180));
+            StackSettings.EnableCustomStacking = GUILayout.Toggle(StackSettings.EnableCustomStacking, "Enable Custom Stacking");
+
+            GUILayout.Label($"Current Limit: {StackSettings.CustomStackLimit}", GUILayout.Width(180));
+            StackSettings.CustomStackLimit = (int)GUILayout.HorizontalSlider(StackSettings.CustomStackLimit, 20, 1000, GUILayout.Width(180));
+
+            if (GUILayout.Button("Reset to Default (20)", GUILayout.Width(180)))
+            {
+                StackSettings.CustomStackLimit = 20;
+            }
         }
 
         public void DrawSaveSection()
@@ -231,6 +241,15 @@ namespace ScheduleBoost.GUI
             {
                 MelonLogger.Error($"[ScheduleBoost] Failed to teleport: {ex.Message}");
             }
+        }
+
+        public void DrawMixingSection()
+        {
+            GUILayout.Label("Mixing Settings", GUILayout.Width(180));
+            MixingSettings.EnableInstantMixing = GUILayout.Toggle(MixingSettings.EnableInstantMixing, "Enable Instant Mixing");
+
+            if (!MixingSettings.EnableInstantMixing)
+                GUILayout.Label("Warning: Mixing will be slow again!", GUILayout.Width(180));
         }
 
 
