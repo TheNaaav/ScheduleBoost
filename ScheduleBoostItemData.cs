@@ -33,6 +33,12 @@ namespace ScheduleBoost.Data
                 }
             },
             {
+                "Salvador Moreno", new List<string>
+                {
+                    "cocaine",
+                }
+            },
+             {
                 "Shirley Watts", new List<string>
                 {
                     "pseudo",

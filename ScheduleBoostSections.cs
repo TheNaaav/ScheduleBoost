@@ -4,6 +4,7 @@ using static Il2CppScheduleOne.Console;
 using ScheduleBoost.Data;
 using ScheduleBoost.Config;
 using static Il2CppSystem.Guid;
+using static Il2CppScheduleOne.Map.ScheduledMaterialChange;
 
 namespace ScheduleBoost.GUI
 {
@@ -46,15 +47,24 @@ namespace ScheduleBoost.GUI
         public void DrawInfoLabels()
         {
             GUILayout.Space(10);
-            GUILayout.Label("Stack Limit Settings", GUILayout.Width(180));
-            StackSettings.EnableCustomStacking = GUILayout.Toggle(StackSettings.EnableCustomStacking, "Enable Custom Stacking");
+            GUILayout.Label("Stack Limit Settings", GUILayout.Width(140));
 
-            GUILayout.Label($"Current Limit: {StackSettings.CustomStackLimit}", GUILayout.Width(180));
-            StackSettings.CustomStackLimit = (int)GUILayout.HorizontalSlider(StackSettings.CustomStackLimit, 20, 1000, GUILayout.Width(180));
+            bool newEnableStack = GUILayout.Toggle(StackSettings.EnableCustomStacking, "Enable Custom Stacking");
 
-            if (GUILayout.Button("Reset to Default (20)", GUILayout.Width(180)))
+            GUILayout.Label($"Current Limit: {StackSettings.CustomStackLimit}", GUILayout.Width(140));
+            int newLimit = (int)GUILayout.HorizontalSlider(StackSettings.CustomStackLimit, 20, 1000, GUILayout.Width(140));
+
+            if (newEnableStack != StackSettings.EnableCustomStacking || newLimit != StackSettings.CustomStackLimit)
+            {
+                StackSettings.EnableCustomStacking = newEnableStack;
+                StackSettings.CustomStackLimit = newLimit;
+                StackSettings.Save();
+            }
+
+            if (GUILayout.Button("Reset to Default (20)", GUILayout.Width(140)))
             {
                 StackSettings.CustomStackLimit = 20;
+                StackSettings.Save(); 
             }
         }
 
@@ -250,6 +260,47 @@ namespace ScheduleBoost.GUI
 
             if (!MixingSettings.EnableInstantMixing)
                 GUILayout.Label("Warning: Mixing will be slow again!", GUILayout.Width(180));
+        }
+
+        public void DrawTrashSection()
+        {
+            GUILayout.Space(10);
+            GUILayout.Label("Cleanup Tools", GUILayout.Width(140));
+
+            if (GUILayout.Button("Clear Trash", GUILayout.Width(140)))
+            {
+                try
+                {
+                    var command = new Il2CppScheduleOne.Console.ClearTrash();
+                    var args = new Il2CppSystem.Collections.Generic.List<string>();
+                    args.Add("cleartrash");
+                    command.Execute(args);
+
+                    MelonLogger.Msg("[ScheduleBoost] Cleared trash using 'cleartrash' command.");
+                }
+                catch (System.Exception ex)
+                {
+                    MelonLogger.Error($"[ScheduleBoost] Failed to clear trash: {ex.Message}");
+                }
+            }
+        }
+
+        public void DrawDeliveryOptions()
+        {
+            GUILayout.Label("Delivery Options", GUILayout.Width(140));
+
+            bool newInstant = GUILayout.Toggle(ModState.InstantDeliveryEnabled, "Instant Delivery");
+            bool newDebt = GUILayout.Toggle(ModState.NoDebtEnabled, "No Debt");
+            bool newLimit = GUILayout.Toggle(ModState.NoOrderLimit, "No Order Limit");
+
+            if (newInstant != ModState.InstantDeliveryEnabled || newDebt != ModState.NoDebtEnabled || newLimit != ModState.NoOrderLimit)
+            {
+                ModState.InstantDeliveryEnabled = newInstant;
+                ModState.NoDebtEnabled = newDebt;
+                ModState.NoOrderLimit = newLimit;
+                ModState.Save(); // Spara direkt vid ändring
+            }
+
         }
 
 

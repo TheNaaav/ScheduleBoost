@@ -1,6 +1,9 @@
 ﻿using MelonLoader;
 using ScheduleBoost;
+using ScheduleBoost.Config;
 using ScheduleBoost.GUI;
+using ScheduleBoost.Patches;
+using ScheduleBoost.Systems;
 
 [assembly: MelonInfo(typeof(ScheduleBoostMod.ScheduleBoostMod), "ScheduleBoost", "0.5.1", "Naruebet")]
 [assembly: MelonGame("TVGS", "Schedule I")]
@@ -13,17 +16,21 @@ namespace ScheduleBoostMod
 
         public override void OnInitializeMelon()
         {
+            ModState.Load();
+            StackSettings.Load();
+
             GUIInstance.OnInitialize();
-            HarmonyLib.Harmony harmony = new("com.scheduleboost");
-            harmony.PatchAll();
+            new HarmonyLib.Harmony("com.scheduleboost").PatchAll();
             MelonLogger.Msg("ScheduleBoost initialized");
         }
+
 
         public override void OnUpdate()
         {
             GUIInstance.OnUpdate();
             InstantMixSystem.Update();
             ConsoleUnlocker.ApplyPatch();
+            DeliveryTweaks.Update();
         }
 
         public override void OnGUI() => GUIInstance.OnGUI();

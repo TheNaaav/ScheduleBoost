@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MelonLoader;
 
 namespace ScheduleBoost.Config
 {
@@ -10,5 +6,27 @@ namespace ScheduleBoost.Config
     {
         public static bool EnableCustomStacking = true;
         public static int CustomStackLimit = 250;
+
+        private static MelonPreferences_Category category;
+        private static MelonPreferences_Entry<bool> stackingEntry;
+        private static MelonPreferences_Entry<int> limitEntry;
+
+        public static void Load()
+        {
+            category = MelonPreferences.CreateCategory("StackSettings");
+            stackingEntry = category.CreateEntry("EnableCustomStacking", true);
+            limitEntry = category.CreateEntry("CustomStackLimit", 250);
+
+            EnableCustomStacking = stackingEntry.Value;
+            CustomStackLimit = limitEntry.Value;
+        }
+
+        public static void Save()
+        {
+            stackingEntry.Value = EnableCustomStacking;
+            limitEntry.Value = CustomStackLimit;
+
+            category.SaveToFile();
+        }
     }
 }
