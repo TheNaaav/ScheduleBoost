@@ -86,6 +86,16 @@ None
 
 ---
 
+## 📝 Changelog
+
+### v0.5.1  
+- 🔧 Stack limit is now user-configurable (20–1000), instead of fixed at 250  
+- ⚗️ More stable and reliable "Instant Mixing"  
+- 🎁 Added a requested item to the "Give Item" tab  
+- 🧼 Code cleanup and minor optimizations  
+
+---
+
 ## 👨‍💻 Developed By
 
 **Naruebet Singsathon**  
