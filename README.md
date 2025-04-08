@@ -89,6 +89,15 @@ None
 
 ## 📝 Changelog
 
+### 🛠️ Version: 0.5.3
+
+#### 📌 What's New:
+- ✅ Improved **Stack Limit Settings** – now includes increment buttons (+10, +25, +50, +100)
+- 📦 Added **High Quality Pseudo**, **Low Quality Pseudo**, and all missing items to Give Item tab
+- 🔫 New **Gun** category added
+- 🏪 Added support for upcoming store: **Bleuballs Boutique**
+- 🎨 Minor GUI style adjustments for cleaner layout
+
 ### v0.5.2
 🧪 Added Instant Delivery toggle + 📦 item to player inventory instantly  
 💸 Added No Debt toggle  
