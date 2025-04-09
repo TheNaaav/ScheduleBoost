@@ -89,6 +89,17 @@ None
 
 ## 📝 Changelog
 
+## v0.5.4
+💄 **UI & Layout**
+- Improved GUI layout for a cleaner look
+- Better spacing and alignment across sections
+
+📱 **SMS Counteroffers**
+- Now always succeed when the toggle is enabled
+
+🧼 **General**
+- Small code cleanup and polish
+
 ### 🛠️ Version: 0.5.3
 
 #### 📌 What's New:
