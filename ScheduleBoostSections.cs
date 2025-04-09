@@ -34,12 +34,10 @@ namespace ScheduleBoost.GUI
 
         public void DrawOfferToggleSection()
         {
-            if (GUILayout.Button(offerChanceEnabled ? "Disable Offer 100%" : "Enable Offer 100%", GUILayout.Width(140)))
-            {
-                offerChanceEnabled = !offerChanceEnabled;
-                OfferChancePatch.Enabled = offerChanceEnabled;
-                MelonLogger.Msg("[ScheduleBoost] Offer Chance Patch " + (offerChanceEnabled ? "enabled" : "disabled"));
-            }
+
+            ModState.Offer100Enabled = GUILayout.Toggle(ModState.Offer100Enabled, "Offer 100% Chance", GUILayout.Width(140));
+
+            ModState.SMSCounterOfferAlwaysAccepted = GUILayout.Toggle(ModState.SMSCounterOfferAlwaysAccepted, "SMS Counter Always Accept", GUILayout.Width(140));
 
             GUILayout.Space(10);
         }
@@ -47,24 +45,53 @@ namespace ScheduleBoost.GUI
         public void DrawInfoLabels()
         {
             GUILayout.Space(10);
-            GUILayout.Label("Stack Limit Settings", GUILayout.Width(140));
+            GUILayout.Label("Stack Limit Settings");
 
             bool newEnableStack = GUILayout.Toggle(StackSettings.EnableCustomStacking, "Enable Custom Stacking");
 
-            GUILayout.Label($"Current Limit: {StackSettings.CustomStackLimit}", GUILayout.Width(140));
-            int newLimit = (int)GUILayout.HorizontalSlider(StackSettings.CustomStackLimit, 20, 1000, GUILayout.Width(140));
+            GUILayout.Label($"Current Limit: {StackSettings.CustomStackLimit}");
+            int newLimit = (int)GUILayout.HorizontalSlider(StackSettings.CustomStackLimit, 20, 1000);
 
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("-100", GUILayout.Width(50))) newLimit = Mathf.Max(newLimit - 100, 20);
+            if (GUILayout.Button("-50", GUILayout.Width(40))) newLimit = Mathf.Max(newLimit - 50, 20);
+            if (GUILayout.Button("-25", GUILayout.Width(40))) newLimit = Mathf.Max(newLimit - 25, 20);
+            if (GUILayout.Button("-10", GUILayout.Width(40))) newLimit = Mathf.Max(newLimit - 10, 20);
+            if (GUILayout.Button("-1", GUILayout.Width(40))) newLimit = Mathf.Max(newLimit - 1, 20);
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("+1", GUILayout.Width(40))) newLimit = Mathf.Min(newLimit + 1, 1000);
+            if (GUILayout.Button("+10", GUILayout.Width(40))) newLimit = Mathf.Min(newLimit + 10, 1000);
+            if (GUILayout.Button("+25", GUILayout.Width(40))) newLimit = Mathf.Min(newLimit + 25, 1000);
+            if (GUILayout.Button("+50", GUILayout.Width(40))) newLimit = Mathf.Min(newLimit + 50, 1000);
+            if (GUILayout.Button("+100", GUILayout.Width(50))) newLimit = Mathf.Min(newLimit + 100, 1000);
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("20", GUILayout.Width(50))) newLimit = 20;
+            if (GUILayout.Button("50", GUILayout.Width(50))) newLimit = 50;
+            if (GUILayout.Button("100", GUILayout.Width(50))) newLimit = 100;
+            if (GUILayout.Button("250", GUILayout.Width(50))) newLimit = 250;
+            if (GUILayout.Button("500", GUILayout.Width(50))) newLimit = 500;
+            if (GUILayout.Button("750", GUILayout.Width(50))) newLimit = 750;
+            if (GUILayout.Button("1000", GUILayout.Width(50))) newLimit = 1000;
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(5);
+            if (GUILayout.Button("Reset to Default (20)"))
+            {
+                newLimit = 20;
+            }
+
+            // Save if something changed
             if (newEnableStack != StackSettings.EnableCustomStacking || newLimit != StackSettings.CustomStackLimit)
             {
                 StackSettings.EnableCustomStacking = newEnableStack;
                 StackSettings.CustomStackLimit = newLimit;
                 StackSettings.Save();
-            }
-
-            if (GUILayout.Button("Reset to Default (20)", GUILayout.Width(140)))
-            {
-                StackSettings.CustomStackLimit = 20;
-                StackSettings.Save(); 
             }
         }
 
@@ -214,7 +241,7 @@ namespace ScheduleBoost.GUI
 
             foreach (var location in teleportLocations)
             {
-                if (GUILayout.Button(location, GUILayout.Width(140)))
+                if (GUILayout.Button(location))
                 {
                     ExecuteTeleport(location);
                 }
@@ -256,7 +283,13 @@ namespace ScheduleBoost.GUI
         public void DrawMixingSection()
         {
             GUILayout.Label("Mixing Settings", GUILayout.Width(180));
-            MixingSettings.EnableInstantMixing = GUILayout.Toggle(MixingSettings.EnableInstantMixing, "Enable Instant Mixing");
+
+            bool newToggle = GUILayout.Toggle(MixingSettings.EnableInstantMixing, "Enable Instant Mixing");
+            if (newToggle != MixingSettings.EnableInstantMixing)
+            {
+                MixingSettings.EnableInstantMixing = newToggle;
+                ModState.Save();
+            }
 
             if (!MixingSettings.EnableInstantMixing)
                 GUILayout.Label("Warning: Mixing will be slow again!", GUILayout.Width(180));
@@ -302,7 +335,6 @@ namespace ScheduleBoost.GUI
             }
 
         }
-
 
     }
 }

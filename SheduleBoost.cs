@@ -5,7 +5,7 @@ using ScheduleBoost.GUI;
 using ScheduleBoost.Patches;
 using ScheduleBoost.Systems;
 
-[assembly: MelonInfo(typeof(ScheduleBoostMod.ScheduleBoostMod), "ScheduleBoost", "0.5.1", "Naruebet")]
+[assembly: MelonInfo(typeof(ScheduleBoostMod.ScheduleBoostMod), "ScheduleBoost", "0.5.4", "Naruebet")]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace ScheduleBoostMod

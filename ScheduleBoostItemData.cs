@@ -9,14 +9,35 @@ namespace ScheduleBoost.Data
             {
                 "Hardware Store", new List<string>
                 {
-                    "extralonglifesoil",
-                    "pgr",
-                    "largestoragerack",
-                    "bed",
-                    "jar",
                     "baggie",
+                    "bed",
+                    "coffeetable",
+                    "displaycabinet",
+                    "electrictrimmers",
+                    "extralonglifesoil",
+                    "fertilizer",
+                    "floorlamp",
+                    "growtent",
+                    "jar",
+                    "largestoragerack",
+                    "longlifesoil",
+                    "mediumstoragerack",
+                    "metalsquaretable",
+                    "mixingstation",
+                    "packagingstation",
+                    "packagingstationmk2",
+                    "pgr",
+                    "trimmers",
+                    "potsprinkler",
+                    "smallstoragerack",
+                    "soil",
+                    "soilpourer",
+                    "speedgrow",
                     "trashbag",
-                    "fertilizer"
+                    "trashcan",
+                    "tv",
+                    "wateringcan",
+
                 }
             },
             {
@@ -41,14 +62,20 @@ namespace ScheduleBoost.Data
              {
                 "Shirley Watts", new List<string>
                 {
+                    "lowqualitypseudo",
                     "pseudo",
+                    "highqualitypseudo",
                     "meth"
                 }
             },
             {
                 "Gas-Mart", new List<string>
                 {
+                    "addy",
+                    "baggie",
                     "banana",
+                    "battery",
+                    "bed",
                     "chili",
                     "cuke",
                     "donut",
@@ -57,33 +84,82 @@ namespace ScheduleBoost.Data
                     "gasoline",
                     "horsesemen",
                     "iodine",
+                    "jar",
+                    "megabean",
                     "motoroil",
                     "mouthwash",
                     "paracetamol",
+                    "trashbag",
                     "viagra",
-                    "energydrink",
-                    "addy",
-                    "battery",
-                    "megabean",
                 }
             },
             {
                 "Oscar's Store", new List<string>
                 {
-                    "suspensionrack",
-                    "moisturepreservingpot",
-                    "fullspectrumgrowlight",
-                    "mixingstationmk2",
-                    "packagingstationmk2",
-                    "cauldron",
-                    "brickpress",
-                    "dryingrack",
-                    "phosphorus",
                     "acid",
+                    "airpot",
+                    "baggie",
+                    "bed",
+                    "brickpress",
+                    "cauldron",
                     "chemistrystation",
+                    "dryingrack",
+                    "extralonglifesoil",
+                    "fullspectrumgrowlight",
+                    "glasoline",
+                    "halogengrowlight",
+                    "jar",
                     "laboven",
+                    "ledgrowlight",
+                    "longlifesoil",
+                    "mixingstation",
+                    "mixingstationmk2",
+                    "moisturepreservingpot",
+                    "packagingstation",
+                    "packagingstationmk2",
+                    "phosphorus",
+                    "plasticpot",
+                    "potsprinkler",
+                    "soil",
+                    "soilpourer",
+                    "suspensionrack",
                 }
             },
+            {
+                 "Bleuballs Boutique", new List<string>
+                {
+                    "woodensign",
+                    "metalsign",
+                    "wallmountedshelf",
+                    "safe",
+                    "antiquewalllamp",
+                    "modernwalllamp",
+                    "grandfatherclock",
+                    "silverwatch",
+                    "goldwatch",
+                    "silverchain",
+                    "goldchain",
+                    "goldbar",
+                    "artworkbeachday",
+                    "artworkmenace",
+                    "artworklines",
+                    "artworkoffer",
+                    "artworkrapscallion",
+                    "artworkmillie",
+                    "brutdugloop",
+                    "chateaulapeepee",
+                    "olmanjimmys",
+                }
+             },
+            {               
+                "Gun", new List<string>
+                {
+                    "revolver",
+                    "revolvercylinder",
+                    "m1911",
+                    "m1911mag",
+                } 
+            }
         };
     }
 }

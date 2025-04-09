@@ -10,7 +10,7 @@ namespace ScheduleBoost.GUI
         private bool showWelcome = true;
         private float welcomeTimer = 5f;
         private Vector2 scrollPosition = Vector2.zero;
-        private enum GUIPage { Main, GiveItem }
+        private enum GUIPage { Main, GiveItem, Stack, Teleport}
         private GUIPage currentPage = GUIPage.Main;
 
         private readonly ScheduleBoostSections sections = new();
@@ -43,7 +43,7 @@ namespace ScheduleBoost.GUI
                     normal = { textColor = Color.red },
                     alignment = TextAnchor.MiddleCenter
                 };
-                UnityEngine.GUI.Label(new Rect(Screen.width / 2 - 200, Screen.height / 2 - 125, 400, 50), "Made by Nav", welcomeStyle);
+                UnityEngine.GUI.Label(new Rect(Screen.width / 2 - 200, Screen.height / 2 - 125, 400, 50), "Made by Nav (F1 for open menu!)", welcomeStyle);
             }
 
             if (!showGUI) return;
@@ -57,9 +57,15 @@ namespace ScheduleBoost.GUI
 
             // Tab Buttons
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Main", GUILayout.Width(180))) currentPage = GUIPage.Main;
-            if (GUILayout.Button("Item", GUILayout.Width(180))) currentPage = GUIPage.GiveItem;
+            if (GUILayout.Button("Main")) currentPage = GUIPage.Main;
+            if (GUILayout.Button("Item")) currentPage = GUIPage.GiveItem;
             GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Stack")) currentPage = GUIPage.Stack;
+            if (GUILayout.Button("Teleport")) currentPage = GUIPage.Teleport;
+            GUILayout.EndHorizontal();
+
 
             GUILayout.Space(10);
 
@@ -69,20 +75,19 @@ namespace ScheduleBoost.GUI
                 GUILayout.BeginHorizontal();
 
                 GUILayout.BeginVertical(GUILayout.Width(180));
-                sections.DrawSaveSection();
+            
                 sections.DrawOfferToggleSection();
-                sections.DrawTrashSection();
-                sections.DrawAddXPSection();
                 sections.DrawMixingSection();
-                sections.DrawInfoLabels();
                 sections.DrawDeliveryOptions();
-                GUILayout.EndVertical();
 
-                GUILayout.Space(10);
+                GUILayout.EndVertical();
 
                 GUILayout.BeginVertical(GUILayout.Width(180));
 
-                sections.DrawTeleportSection();
+                sections.DrawSaveSection();
+                sections.DrawTrashSection();
+                sections.DrawAddXPSection();
+
                 GUILayout.EndVertical();
 
                 GUILayout.EndHorizontal();
@@ -92,7 +97,15 @@ namespace ScheduleBoost.GUI
             {
                 sections.DrawGiveItemSection();
             }
-            GUILayout.EndScrollView();
+            else if (currentPage == GUIPage.Stack)
+            {
+                sections.DrawInfoLabels();
+            }
+            else if (currentPage == GUIPage.Teleport)
+            {
+                sections.DrawTeleportSection();
+            }
+                GUILayout.EndScrollView();
 
             GUILayout.EndVertical();
 
