@@ -27,9 +27,6 @@ All crafting is immediate and uses max allowed quantity.
 - No Debt: Removes any outstanding debt from NPCs  
 - No Order Limit: Allows unlimited orders  
 
-🛒 Cart UI Buttons  
-Adds +10, +50, +99 buttons for faster ordering in mobile shop UI.
-
 📦 Item Tab  
 A categorized item gifter — select a store, choose an item, and pick quantity (x1, x10, x20, or x250).  
 Stores:
